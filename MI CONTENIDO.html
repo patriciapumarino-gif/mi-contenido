@@ -1,7 +1,8 @@
-<!DOCTYPE html>
-<!-- saved from url=(0060)file:///C:/Users/USUARIO/Downloads/mi_contenido_final_1.html -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MI CONTENIDO</title>
 <style>
@@ -83,7 +84,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .media-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.25s;position:relative;animation:fadeIn 0.3s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .media-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.4)}
-.media-thumb{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:var(--surface2)}
+.media-thumb{width:100%;aspect-ratio:1;object-fit:contain;display:block;background:var(--surface2)}
 .media-thumb-placeholder{width:100%;aspect-ratio:1;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative}
 .play-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:rgba(0,0,0,0.6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
 .status-dot{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%;border:2px solid var(--bg)}
@@ -127,7 +128,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .overlay.show{display:flex}
 .modal{background:var(--surface);border:1px solid var(--border2);border-radius:24px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;animation:modalIn 0.25s ease;position:relative}
 @keyframes modalIn{from{transform:scale(0.95);opacity:0}to{transform:scale(1);opacity:1}}
-.modal-media{width:100%;max-height:340px;object-fit:cover;border-radius:20px 20px 0 0;display:block;background:var(--surface2)}
+.modal-media{width:100%;max-height:520px;object-fit:contain;border-radius:20px 20px 0 0;display:block;background:var(--surface2)}
 .modal-media-placeholder{width:100%;height:240px;background:linear-gradient(135deg,var(--surface2),var(--surface3));display:flex;align-items:center;justify-content:center;font-size:5rem;border-radius:20px 20px 0 0}
 .modal-body{padding:24px}
 .modal-close{position:absolute;top:16px;right:16px;background:rgba(0,0,0,0.5);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;z-index:10}
@@ -194,7 +195,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="auth-logo">✦ MI CONTENIDO</div>
     <p class="auth-tagline">Tu gestor visual privado de fotos y videos.<br>Inicia sesión con tu cuenta de Google para acceder a tu contenido.</p>
     <button class="btn-google" onclick="iniciarLogin()">
-      <img src="./MI CONTENIDO_files/google.svg" alt="Google">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
       Continuar con Google
     </button>
     <p class="auth-note">🔒 Solo tú puedes ver tu contenido. Nunca se comparte ni se modifica ningún archivo.</p>
@@ -216,7 +217,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
     <div class="header-actions">
       <button class="btn btn-ghost btn-sm" onclick="cargarArchivos()">↻ Actualizar</button>
-      <img id="userAvatar" class="user-avatar" src="file:///C:/Users/USUARIO/Downloads/mi_contenido_final_1.html" alt="" style="display:none">
+      <img id="userAvatar" class="user-avatar" src="" alt="" style="display:none">
       <button class="btn btn-ghost btn-sm" onclick="cerrarSesion()">Salir</button>
     </div>
   </div>
@@ -225,23 +226,23 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="sidebar">
       <div class="sidebar-section">
         <div class="sidebar-label">Vista</div>
-        <div class="nav-item active" id="nav-todo" onclick="setFiltroEstado(&#39;todo&#39;)"><span class="ni-icon">◈</span>Todo<span class="nav-count" id="cnt-todo">0</span></div>
-        <div class="nav-item" id="nav-sin" onclick="setFiltroEstado(&#39;Sin editar&#39;)"><span class="ni-icon">🟡</span>Sin editar<span class="nav-count" id="cnt-sin">0</span></div>
-        <div class="nav-item" id="nav-edit" onclick="setFiltroEstado(&#39;Editada&#39;)"><span class="ni-icon">🟠</span>Editada<span class="nav-count" id="cnt-edit">0</span></div>
-        <div class="nav-item" id="nav-pub" onclick="setFiltroEstado(&#39;Publicada&#39;)"><span class="ni-icon">🟢</span>Publicada<span class="nav-count" id="cnt-pub">0</span></div>
-        <div class="nav-item" id="nav-arch" onclick="setFiltroEstado(&#39;Archivada&#39;)"><span class="ni-icon">⚪</span>Archivada<span class="nav-count" id="cnt-arch">0</span></div>
+        <div class="nav-item active" id="nav-todo" onclick="setFiltroEstado('todo')"><span class="ni-icon">◈</span>Todo<span class="nav-count" id="cnt-todo">0</span></div>
+        <div class="nav-item" id="nav-sin" onclick="setFiltroEstado('Sin editar')"><span class="ni-icon">🟡</span>Sin editar<span class="nav-count" id="cnt-sin">0</span></div>
+        <div class="nav-item" id="nav-edit" onclick="setFiltroEstado('Editada')"><span class="ni-icon">🟠</span>Editada<span class="nav-count" id="cnt-edit">0</span></div>
+        <div class="nav-item" id="nav-pub" onclick="setFiltroEstado('Publicada')"><span class="ni-icon">🟢</span>Publicada<span class="nav-count" id="cnt-pub">0</span></div>
+        <div class="nav-item" id="nav-arch" onclick="setFiltroEstado('Archivada')"><span class="ni-icon">⚪</span>Archivada<span class="nav-count" id="cnt-arch">0</span></div>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-label">Tipo</div>
         <div style="padding:0 4px">
-          <button class="filter-chip active" id="chip-all" onclick="setFiltroTipo(&#39;all&#39;)">Todos</button>
-          <button class="filter-chip" id="chip-foto" onclick="setFiltroTipo(&#39;foto&#39;)">📷 Fotos</button>
-          <button class="filter-chip" id="chip-video" onclick="setFiltroTipo(&#39;video&#39;)">🎬 Videos</button>
+          <button class="filter-chip active" id="chip-all" onclick="setFiltroTipo('all')">Todos</button>
+          <button class="filter-chip" id="chip-foto" onclick="setFiltroTipo('foto')">📷 Fotos</button>
+          <button class="filter-chip" id="chip-video" onclick="setFiltroTipo('video')">🎬 Videos</button>
         </div>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-label">Red social</div>
-        <div style="padding:0 4px" id="redChips"><button class="filter-chip red-chip active" data-red="all" onclick="setFiltroRed(&#39;all&#39;)">Todas</button><button class="filter-chip red-chip" data-red="x" onclick="setFiltroRed(&#39;x&#39;)">𝕏 X (Twitter)</button><button class="filter-chip red-chip" data-red="reddit" onclick="setFiltroRed(&#39;reddit&#39;)">🔴 Reddit</button><button class="filter-chip red-chip" data-red="of" onclick="setFiltroRed(&#39;of&#39;)">💙 OnlyFans</button><button class="filter-chip red-chip" data-red="fansly" onclick="setFiltroRed(&#39;fansly&#39;)">💎 Fansly</button><button class="filter-chip red-chip" data-red="redgifs" onclick="setFiltroRed(&#39;redgifs&#39;)">🎞️ Redgifs</button><button class="filter-chip red-chip" data-red="telegram" onclick="setFiltroRed(&#39;telegram&#39;)">✈️ Telegram</button><button class="filter-chip red-chip" data-red="tiktok" onclick="setFiltroRed(&#39;tiktok&#39;)">🎵 TikTok</button><button class="filter-chip red-chip" data-red="ig" onclick="setFiltroRed(&#39;ig&#39;)">📸 Instagram</button><button class="filter-chip red-chip" data-red="yt" onclick="setFiltroRed(&#39;yt&#39;)">▶️ YouTube</button><button class="filter-chip red-chip" data-red="ph" onclick="setFiltroRed(&#39;ph&#39;)">🎬 Pornhub</button><button class="filter-chip red-chip" data-red="otra" onclick="setFiltroRed(&#39;otra&#39;)">🔗 Otra</button></div>
+        <div style="padding:0 4px" id="redChips"></div>
       </div>
     </div>
 
@@ -256,8 +257,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="page-title" id="pageTitle">Toda la biblioteca</div>
         <div class="page-count" id="pageCount">0 archivos</div>
         <div class="view-toggle">
-          <button class="view-btn active" id="vbtn-grid" onclick="setVista(&#39;grid&#39;)">⊞</button>
-          <button class="view-btn" id="vbtn-list" onclick="setVista(&#39;list&#39;)">☰</button>
+          <button class="view-btn active" id="vbtn-grid" onclick="setVista('grid')">⊞</button>
+          <button class="view-btn" id="vbtn-list" onclick="setVista('list')">☰</button>
         </div>
       </div>
       <div id="gallery"></div>
@@ -463,7 +464,7 @@ function abrirModal(fileId){
   const esV=f.mimeType.startsWith('video/');
   const fecha=f.createdTime?new Date(f.createdTime).toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}):'—';
   const mediaHtml=f.thumbnailLink
-    ?`<img class="modal-media" src="${f.thumbnailLink.replace('=s220','=s800')}" alt="${f.name}">`
+    ?`<img class="modal-media" src="${f.thumbnailLink.replace('=s220','=s1600')}" alt="${f.name}">`
     :`<div class="modal-media-placeholder">${esV?'🎬':'📷'}</div>`;
   const usosHtml=reg.usos.length===0
     ?`<p style="color:var(--muted);font-size:0.8rem;padding:10px 0">Aún no publicado en ninguna red.</p>`
@@ -572,6 +573,5 @@ window.onload=async()=>{
   }
 };
 </script>
-
-
-</body></html>
+</body>
+</html>
