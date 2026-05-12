@@ -358,7 +358,7 @@ async function cargarArchivos(){
     let archivos=[];
     let pageToken='';
     do{
-      const url=`https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+trashed=false&fields=files(id,name,mimeType,thumbnailLink,createdTime,size),nextPageToken&pageSize=100${pageToken?'&pageToken='+pageToken:''}`;
+      const url=`https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+trashed=false&fields=files(id,name,mimeType,thumbnailLink,webContentLink,createdTime,size),nextPageToken&pageSize=100${pageToken?'&pageToken='+pageToken:''}`;
       const r=await fetch(url,{headers:{Authorization:'Bearer '+state.token}});
       if(r.status===401){cerrarSesion();showToast('Sesión expirada. Vuelve a iniciar sesión.','error');return;}
       const d=await r.json();
@@ -461,7 +461,10 @@ function abrirModal(fileId){
   const reg=getReg(fileId);
   const esV=f.mimeType.startsWith('video/');
   const fecha=f.createdTime?new Date(f.createdTime).toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}):'—';
-  const mediaHtml=`<img class="modal-media" src="https://drive.google.com/thumbnail?id=${f.id}&sz=w1200" alt="${f.name}" onerror="this.src='https://drive.google.com/thumbnail?id=${f.id}&sz=w400'">`;
+  const imgSrc = `https://www.googleapis.com/drive/v3/files/${f.id}?alt=media&access_token=${state.token}`;
+  const mediaHtml = esV
+    ? `<div class="modal-media-placeholder" style="background:#000;border-radius:20px 20px 0 0">🎬<br><small style="font-size:0.8rem;color:#aaa;margin-top:8px;display:block">Video — <a href="https://drive.google.com/file/d/${f.id}/view" target="_blank" style="color:#4ECDC4">Abre en Drive</a></small></div>`
+    : `<img class="modal-media" src="${imgSrc}" alt="${f.name}">`;
   const usosHtml=reg.usos.length===0
     ?`<p style="color:var(--muted);font-size:0.8rem;padding:10px 0">Aún no publicado en ninguna red.</p>`
     :reg.usos.map((u,i)=>{const r=REDES.find(x=>x.id===u.red);return`<div class="use-entry"><div class="use-net-icon">${r?r.icon:'🔗'}</div><div class="use-info"><div class="use-net-name">${r?r.label:u.red}</div><div class="use-date">📅 ${u.fecha}${u.formato?' · '+u.formato:''}</div>${u.link?`<a href="${u.link}" target="_blank" class="use-link">🔗 Ver publicación</a>`:''}</div><button onclick="eliminarUso('${fileId}',${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.8rem;margin-left:auto" title="Eliminar">✕</button></div>`}).join('');
