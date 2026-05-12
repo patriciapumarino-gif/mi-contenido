@@ -464,10 +464,9 @@ function abrirModal(fileId){
   const reg=getReg(fileId);
   const esV=f.mimeType.startsWith('video/');
   const fecha=f.createdTime?new Date(f.createdTime).toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}):'—';
-  const imgSrc = `https://www.googleapis.com/drive/v3/files/${f.id}?alt=media&access_token=${state.token}`;
   const mediaHtml = esV
     ? `<div class="modal-media-placeholder" style="background:#000;border-radius:20px 20px 0 0">🎬<br><small style="font-size:0.8rem;color:#aaa;margin-top:8px;display:block">Video — <a href="https://drive.google.com/file/d/${f.id}/view" target="_blank" style="color:#4ECDC4">Abre en Drive</a></small></div>`
-    : `<img class="modal-media" src="${imgSrc}" alt="${f.name}">`;
+    : `<div id="modal-img-wrap" style="width:100%;min-height:240px;background:#111;border-radius:20px 20px 0 0;display:flex;align-items:center;justify-content:center"><div class="spinner"></div></div>`;
   const usosHtml=reg.usos.length===0
     ?`<p style="color:var(--muted);font-size:0.8rem;padding:10px 0">Aún no publicado en ninguna red.</p>`
     :reg.usos.map((u,i)=>{const r=REDES.find(x=>x.id===u.red);return`<div class="use-entry"><div class="use-net-icon">${r?r.icon:'🔗'}</div><div class="use-info"><div class="use-net-name">${r?r.label:u.red}</div><div class="use-date">📅 ${u.fecha}${u.formato?' · '+u.formato:''}</div>${u.link?`<a href="${u.link}" target="_blank" class="use-link">🔗 Ver publicación</a>`:''}</div><button onclick="eliminarUso('${fileId}',${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.8rem;margin-left:auto" title="Eliminar">✕</button></div>`}).join('');
@@ -504,6 +503,22 @@ function abrirModal(fileId){
       </div>
     </div>`;
   document.getElementById('modalOverlay').classList.add('show');
+  // Load full image async with auth token
+  if(!esV){
+    fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,{headers:{Authorization:'Bearer '+state.token}})
+    .then(r=>r.blob())
+    .then(blob=>{
+      const url=URL.createObjectURL(blob);
+      const wrap=document.getElementById('modal-img-wrap');
+      if(wrap){
+        wrap.innerHTML=`<img src="${url}" style="width:100%;max-height:520px;object-fit:contain;border-radius:20px 20px 0 0;display:block;background:#000" alt="foto">`;
+      }
+    })
+    .catch(()=>{
+      const wrap=document.getElementById('modal-img-wrap');
+      if(wrap) wrap.innerHTML='<div style="color:#aaa;font-size:0.8rem">No se pudo cargar la imagen</div>';
+    });
+  }
 }
 
 function cerrarModal(e){if(e.target.id==='modalOverlay')document.getElementById('modalOverlay').classList.remove('show')}
