@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MI CONTENIDO</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -307,34 +308,36 @@ function cargarRegistros(){const r=localStorage.getItem('mc_reg');state.registro
 function getReg(id){if(!state.registros[id])state.registros[id]={estado:'Sin editar',usos:[],notas:''};return state.registros[id]}
 
 // ── AUTH ──────────────────────────────────────────────────────
+let tokenClient = null;
+
 function iniciarLogin(){
-  const params=new URLSearchParams({
-    client_id:CLIENT_ID,
-    redirect_uri:window.location.href.split('?')[0].split('#')[0],
-    response_type:'token',
-    scope:SCOPES,
-    prompt:'select_account'
-  });
-  window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+params;
+  if(!tokenClient){
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: async (resp) => {
+        if(resp.error){ showToast('Error al iniciar sesión: '+resp.error,'error'); return; }
+        state.token = resp.access_token;
+        localStorage.setItem('mc_token', state.token);
+        document.getElementById('authScreen').style.display='none';
+        document.getElementById('appMain').style.display='block';
+        await cargarPerfil();
+        await cargarArchivos();
+      }
+    });
+  }
+  tokenClient.requestAccessToken({prompt:'select_account'});
 }
 
 function cerrarSesion(){
   state.token=null;
   localStorage.removeItem('mc_token');
+  if(tokenClient) google.accounts.oauth2.revoke(state.token, ()=>{});
   document.getElementById('authScreen').style.display='flex';
   document.getElementById('appMain').style.display='none';
 }
 
 function checkToken(){
-  // Check URL hash for token (OAuth implicit flow)
-  const hash=window.location.hash.substring(1);
-  const params=new URLSearchParams(hash);
-  if(params.get('access_token')){
-    state.token=params.get('access_token');
-    localStorage.setItem('mc_token',state.token);
-    window.history.replaceState(null,null,' ');
-    return true;
-  }
   const saved=localStorage.getItem('mc_token');
   if(saved){state.token=saved;return true;}
   return false;
